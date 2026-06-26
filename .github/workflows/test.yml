@@ -1,7 +1,11 @@
-name: approvaltest
+name: approvaltest01
 
 on:
   workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
   terraform:
@@ -18,6 +22,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5
 
       - name: Terraform Init
         run: terraform init
@@ -31,11 +37,25 @@ jobs:
       - name: Wait for Manual Approval
         uses: trstringer/manual-approval@v1
         with:
-          secret: ${{ secrets.GITHUB_TOKEN }}
+          secret: ${{ secrets.GH_PAT }}
           approvers: anilsreeramula
           minimum-approvals: 1
           issue-title: "Approve Terraform Apply"
-          issue-body: "Please review the Terraform plan and approve this deployment."
+          issue-body: |
+            Terraform plan has completed successfully.
+
+            Please review the workflow logs.
+
+            Reply with one of the following:
+            - approve
+            - approved
+            - yes
+            - lgtm
+
+            To reject:
+            - deny
+            - denied
+            - no
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
