@@ -65,12 +65,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Init (S3 Backend)
-        run: |
-          terraform init -reconfigure \
-            -backend-config="bucket=conditional_approval" \
-            -backend-config="key=terraform/state.tfstate" \
-            -backend-config="region=ca-central-1"
+        # - name: Terraform Init (S3 Backend)
+      #   run: |
+      #     terraform init -reconfigure \
+      #       -backend-config="bucket=conditional_approval" \
+      #       -backend-config="key=terraform/state.tfstate" \
+      #       -backend-config="region=ca-central-1"
+
+      - name: Terraform Init
+        run: terraform init -reconfigure
 
       - name: Download Plan Artifact
         uses: actions/download-artifact@v4
