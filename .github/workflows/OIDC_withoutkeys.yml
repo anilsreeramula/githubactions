@@ -1,6 +1,13 @@
-permissions:
-  id-token: write
-  contents: read
+# permissions:
+#   id-token: write
+#   contents: read
+
+name: oidc_withoutkeys
+
+on:
+  # push:
+  #   branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   plan:
@@ -13,7 +20,7 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/<GITHUB_OIDC_ROLE>
+          role-to-assume: arn:aws:iam::835671582299:role/OIDC_github_role
           aws-region: ca-central-1
 
       - name: Setup Terraform
