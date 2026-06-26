@@ -1,6 +1,6 @@
-# permissions:
-#   id-token: write
-#   contents: read
+permissions:
+  id-token: write
+  contents: read
 
 name: oidc_withoutkeys
 
