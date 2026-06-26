@@ -1,4 +1,4 @@
-name: ServerTerraform
+name: ServerTerraformwithapproval
 
 on:
   workflow_dispatch:
