@@ -1,0 +1,41 @@
+name: ServerTerraform
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.KEY_ID }}
+      AWS_DEFAULT_REGION: ca-central-1
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Wait for Manual Approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ secrets.GITHUB_TOKEN }}
+          approvers: your-github-username
+          minimum-approvals: 1
+          issue-title: "Approve Terraform Apply"
+          issue-body: "Please review the Terraform plan and approve this deployment."
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
