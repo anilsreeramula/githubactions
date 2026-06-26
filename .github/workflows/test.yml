@@ -32,7 +32,7 @@ jobs:
         uses: trstringer/manual-approval@v1
         with:
           secret: ${{ secrets.GITHUB_TOKEN }}
-          approvers: your-github-username
+          approvers: anilsreeramula
           minimum-approvals: 1
           issue-title: "Approve Terraform Apply"
           issue-body: "Please review the Terraform plan and approve this deployment."
