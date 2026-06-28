@@ -2,7 +2,7 @@ permissions:
   id-token: write
   contents: read
 
-name: server_selfhosted
+name: selfhosted_job
 
 on:
   # push:
