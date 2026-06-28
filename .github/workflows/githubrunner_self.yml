@@ -2,7 +2,7 @@ permissions:
   id-token: write
   contents: read
 
-name: oidc_withoutkeys
+name: server_selfhosted
 
 on:
   # push:
