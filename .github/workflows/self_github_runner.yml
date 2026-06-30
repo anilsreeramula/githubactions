@@ -5,21 +5,25 @@ permissions:
 name: gh_selfhosted
 
 on:
-  # push:
-  #   branches: [ main ]
   workflow_dispatch:
 
 jobs:
   plan:
-   
     runs-on:
-    - self-hosted
-    - Linux
-    - X64
-    
+      - self-hosted
+      - Linux
+      - X64
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install unzip
+        run: |
+          if ! command -v unzip >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y unzip
+          fi
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
@@ -30,6 +34,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Verify Terraform installation
+        run: terraform version
+
       - name: Terraform Init
         run: terraform init -reconfigure
 
@@ -38,7 +45,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
-   
-
-
-        
