@@ -2,7 +2,7 @@ permissions:
   id-token: write
   contents: read
 
-name: gh_selfhosted
+name: anil_selfhosted
 
 on:
   workflow_dispatch:
